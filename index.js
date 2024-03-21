@@ -6,9 +6,9 @@ document.getElementById('file').addEventListener('change', function () {
         currentChunk = 0,
         spark = new SparkMD5.ArrayBuffer(),
         fileReader = new FileReader();
-
     fileReader.onload = function (e) {
         console.log('read chunk nr', currentChunk + 1, 'of', chunks);
+        document.querySelector('.display').innerHTML=currentChunk+1+"chunks"+chunks
         spark.append(e.target.result);                   // Append array buffer
         currentChunk++;
 
@@ -16,12 +16,14 @@ document.getElementById('file').addEventListener('change', function () {
             loadNext();
         } else {
             console.log('finished loading');
+            document.querySelector(`.finish`).innerHTML=spark.end()
             console.info('computed hash', spark.end());  // Compute hash
         }
     };
 
     fileReader.onerror = function () {
         console.warn('oops, something went wrong.');
+        alert("error")
     };
 
     function loadNext() {
